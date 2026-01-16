@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}User Orders (JOIN){% endblock %}
+
+{% block content %}
+<h2>User Orders - INNER JOIN Demonstration</h2>
+<p>This view demonstrates a JOIN query between users and orders tables:</p>
+
+<pre><code>SELECT users.name, users.email, orders.item, orders.amount
+FROM users
+INNER JOIN orders ON users.id = orders.user_id;</code></pre>
+
+{% if user_orders %}
+<table>
+    <thead>
+        <tr>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Order Item</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in user_orders %}
+        <tr>
+            <td>{{ row.name }}</td>
+            <td>{{ row.email }}</td>
+            <td>{{ row.item }}</td>
+            <td>${{ "%.2f"|format(row.amount) }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>Total joined records: {{ user_orders|length }}</p>
+{% else %}
+<p class="empty">No user-order relationships found. Create users and orders first.</p>
+{% endif %}
+
+<div class="info">
+    <h3>What this demonstrates:</h3>
+    <ul>
+        <li><strong>INNER JOIN</strong>: Combines users with their orders</li>
+        <li><strong>Foreign Key Relationship</strong>: orders.user_id references users.id</li>
+        <li><strong>Relational Data</strong>: Shows how related data can be queried together</li>
+        <li><strong>Database Index Usage</strong>: JOIN uses indexes for efficient lookups</li>
+    </ul>
+</div>
+{% endblock %}

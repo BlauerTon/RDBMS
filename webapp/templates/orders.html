@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+<h2>Order Management</h2>
+<p>Manage orders linked to users. Each order must have a valid user ID.</p>
+
+<div class="actions">
+    <a href="/orders/new" class="btn btn-primary">Create New Order</a>
+</div>
+
+{% if orders %}
+<table>
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>User</th>
+            <th>Item</th>
+            <th>Amount</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for order in orders %}
+        <tr>
+            <td>{{ order.id }}</td>
+            <td>{{ order.user_name }} (ID: {{ order.user_id }})</td>
+            <td>{{ order.item }}</td>
+            <td>${{ "%.2f"|format(order.amount) }}</td>
+            <td class="actions">
+                <form action="/orders/{{ order.id }}/delete" method="POST" class="inline-form">
+                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Delete this order?')">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<p>Total orders: {{ orders|length }}</p>
+{% else %}
+<p class="empty">No orders found. Create your first order!</p>
+{% endif %}
+
+<h3>Available Users</h3>
+{% if users %}
+<ul>
+    {% for user in users %}
+    <li><strong>{{ user.name }}</strong> ({{ user.email }}) - ID: {{ user.id }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No users available. Create users first to add orders.</p>
+{% endif %}
+{% endblock %}

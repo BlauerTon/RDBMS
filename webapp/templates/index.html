@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<h2>User and Orders Management System</h2>
+<p>This application demonstrates the functionality of a custom-built RDBMS through a REST API.</p>
+
+<div class="card-grid">
+    <div class="card">
+        <h3>User Management</h3>
+        <p>Create, read, update, and delete users. Demonstrates:</p>
+        <ul>
+            <li>CRUD operations</li>
+            <li>Unique email constraint enforcement</li>
+            <li>Primary key usage</li>
+        </ul>
+        <a href="/users" class="btn">Manage Users</a>
+    </div>
+
+    <div class="card">
+        <h3>Order Management</h3>
+        <p>Create and manage orders linked to users. Demonstrates:</p>
+        <ul>
+            <li>Foreign key relationships</li>
+            <li>Data integrity</li>
+            <li>Constraint validation</li>
+        </ul>
+        <a href="/orders" class="btn">Manage Orders</a>
+    </div>
+
+    <div class="card">
+        <h3>INNER JOIN Demonstration</h3>
+        <p>View users with their orders using a JOIN query:</p>
+        <code>SELECT users.name, users.email, orders.item, orders.amount<br>
+        FROM users JOIN orders ON users.id = orders.user_id</code>
+        <a href="/user-orders" class="btn">View Joined Data</a>
+    </div>
+</div>
+
+<h3>Database Schema</h3>
+<pre>
+Users table:
+  id INT PRIMARY KEY
+  name TEXT
+  email TEXT UNIQUE
+
+Orders table:
+  id INT PRIMARY KEY
+  user_id INT (foreign key to users.id)
+  item TEXT
+  amount DECIMAL
+</pre>
+{% endblock %}

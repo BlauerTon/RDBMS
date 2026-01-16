@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ action }} User{% endblock %}
+
+{% block content %}
+<h2>{{ action }} User</h2>
+
+<form method="POST" action="{% if action == 'Create' %}/users/new{% else %}/users/{{ user.id }}/edit{% endif %}">
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="{{ user.name if user else '' }}" required>
+    </div>
+    
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" value="{{ user.email if user else '' }}" required>
+        <small>Must be unique across all users</small>
+    </div>
+    
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">{{ action }} User</button>
+        <a href="/users" class="btn">Cancel</a>
+    </div>
+</form>
+{% endblock %}
